@@ -9,12 +9,11 @@ class RatingService {
     try {
       const { reviewerId, productId, ratings, ...otherData } = ratingReviewData;
 
-      // Check if reviewer exists
       const user = await this.userModel.findById(reviewerId);
       if (!user) {
         throw new HttpException(404, 'Reviewer not found');
       }
-      // Check if product exists
+
       const movie = await this.movieModel.findById(productId);
       if (!movie) {
         throw new HttpException(404, 'Product (Movie) not found');
@@ -24,7 +23,6 @@ class RatingService {
         throw new HttpException(400, 'Ratings should be between 1 and 10');
       }
 
-      // Create the rating and review
       const ratingReview = await RatingModel.create({
         reviewerId,
         productId,
